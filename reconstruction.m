@@ -71,7 +71,7 @@ title("Projection at 45 degrees, full length");
 xlabel("Detector value");
 set(gca,'Ytick',[]);
 
-% pad view45 to length 21 to plot sinogram with no backprojection
+% pad view45 to length 21 and plot sinogram with no backprojection
 view45_padded=zeros(1,21);
 middle=n;
 s_idx=middle-floor(n/2);
@@ -192,7 +192,10 @@ ring_mean=@(img) arrayfun(@(k) mean(img(rbin==k)),0:rmax);
 rMean_bpg=ring_mean(backprojection);
 rMean_fbpg=ring_mean(filteredbackprojection);
 
-
+% define radii vector and 1/r reference curve
+r = 0:rmax; 
+one_over_r=zeros(size(r));
+one_over_r(2:end)=1./r(2:end);
 
 % display results graphically
 figure;
@@ -202,7 +205,7 @@ plot(r, rMean_fbpg, 'o-', 'LineWidth', 1.5, 'DisplayName', 'Filtered Backproject
 grid on;
 xlabel('Ring radius (pixels)');
 ylabel('Average pixel value in ring');
-title('Radial Blur Comparison (Unnormalized)');
+title('Radial Blur Comparison');
 legend('Location','northeast');
 
 % display results as 2D grayscale images
